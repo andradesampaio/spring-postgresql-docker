@@ -3,8 +3,12 @@ package br.org.book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
+import java.util.UUID;
+
 @Service
 public class RestService {
+
     private BookRepository bookRepository;
 
     @Autowired
@@ -12,10 +16,7 @@ public class RestService {
         this.bookRepository = bookRepository;
     }
 
-    public String getBookStats(Long id){
-        BookEntity book= bookRepository.findById(id);
-        String result="{ID : "+book.getId().toString()+",Title : "+book.getTitle()+",Author :"+ book.getAuthor()+" }";
-
-        return result;
+    public BookEntity getBookStats(Long id){
+        return bookRepository.findById(id);
     }
 }

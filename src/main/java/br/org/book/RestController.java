@@ -1,6 +1,7 @@
 package br.org.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,12 @@ public class RestController {
     public RestController(RestService restService) {
         this.restService = restService;
     }
+
     @RequestMapping(value = "data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity onResRequest(@RequestParam(value = "id") String id){
+    public ResponseEntity<BookEntityDTO> onResRequest(@RequestParam(value = "id") String id){
         Long Id = Long.parseLong(id);
-        return ResponseEntity.ok(restService.getBookStats(Id));
+        BookEntity book =  restService.getBookStats(Id);
+
+        return new ResponseEntity(BookEntityDTO.convertToDTO(book), HttpStatus.ACCEPTED);
     }
 }
